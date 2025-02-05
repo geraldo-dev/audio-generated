@@ -1,32 +1,56 @@
-import genanki
-# import os
 
-# modelo de cards
-my_model = genanki.Model(
-    1234567890,
-    'Modelo com Audio',
+import genanki
+import os
+
+# Cria um modelo de card básico com suporte a áudio
+modelo = genanki.Model(
+    1234567890,  # ID único
+    'Modelo com Áudio',
     fields=[
-        {'name': 'Pergunta'},
-        {'name': 'Resposta'},
+        {'name': 'Texto'},
         {'name': 'Audio'},
     ],
     templates=[
         {
-            'name': 'card de frente',
-            'qfmt': '{{Pergunta}}<br>{{Audio}}',
-            'afmt': '{{FrontSide}} {{Resposta}}',
+            'name': 'Card de Frente',
+            'qfmt': '<h2>{{Texto}}</h2><br>{{Audio}}',  # Frente do cartão
+            'afmt': '<h2>{{Texto}}</h2>',  # Resposta (inclui o áudio)
         },
-    ])
+    ],
+)
 
-# crio nome do deck
-my_deck = genanki.Deck(123456789, 'Deck com Àudio')
+# Cria um deck com um ID único
+deck = genanki.Deck(
+    123456789,  # ID único
+    'Deck com Áudio'
+)
 
-my_note = genanki.Note(
-    model=my_model,
-    fields=['i am fine, and you ?', ' ', '[sound:i_am_fine_and_you_.mp3]'])
+# Caminho para os arquivos de áudio
+pasta_audio = 'audio'
 
-my_deck.add_note(my_note)
+# Itera pelos arquivos de áudio na pasta
+for arquivo in os.listdir(pasta_audio):
+    if arquivo.endswith(('.mp3', '.wav')):
+        # Usa o nome do arquivo como texto
+        texto = os.path.splitext(arquivo)[0].replace('_', ' ')
+        # Formato esperado pelo Anki para áudio
+        caminho_audio = f'[sound:{arquivo}]'
 
-package = genanki.Package(my_deck)
-package.media_files = ['i_am_fine_and_you_.mp3']
-package.write_to_file('./teste_deck.apkg')
+        # Cria uma nota (card)
+        nota = genanki.Note(
+            model=modelo,
+            fields=[texto, caminho_audio]
+        )
+
+        # Adiciona a nota ao deck
+        deck.add_note(nota)
+
+# Cria um pacote e inclui os arquivos de áudio
+pacote = genanki.Package(deck)
+pacote.media_files = [os.path.join(pasta_audio, f) for f in os.listdir(
+    pasta_audio) if f.endswith(('.mp3', '.wav'))]
+
+# Exporta o deck para um arquivo .apkg
+pacote.write_to_file('deck_com_audio.apkg')
+
+print("Deck criado com sucesso: deck_com_audio.apkg")

@@ -4,12 +4,7 @@ import csv
 from time import sleep
 
 
-all_texts: list[str] = [
-    'my name is jonh',
-    'whats is your name?',
-    'i am fine, and you ?',
-    'welcome'
-]
+all_texts: list[str] = []
 
 with open('lista_frases_ingles.csv', mode='r', encoding='utf-8') as file:
     read_file = csv.reader(file)
@@ -28,9 +23,9 @@ def audio_generator(texts: list[str], lang: str = 'en', slow: bool = True) -> No
         tts = gTTS(text=text, lang=lang, slow=slow)
 
         name_file: str = re.sub(
-            r'[<>:"/\\|?*],', '', text.replace(' ', '_'))
+            r'[<>:"/\\|?*]', '', text.replace(' ', '_'))
 
-        tts.save(f'./audio2/{name_file}.mp3')
+        tts.save(f'./audio/{name_file}.mp3')
 
     print('save')
 
