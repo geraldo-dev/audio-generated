@@ -3,20 +3,23 @@ import csv
 phrase_en: list[str] = []
 phrase_pt: list[str] = []
 
-with open('Inglês-Português.csv', 'r', encoding='utf-8') as file:
-    texts: str = file.read()
-    text_enghlis: list[str] = texts.replace('\n', ';').split(';')
 
-    for i in range(len(text_enghlis)):
-        if i % 2 == 0:
+def sentence_separator(file_name: str) -> None:
 
-            phrase_en.append(text_enghlis[i])
-        else:
-            if i % 2 != 0:
-                phrase_pt.append(text_enghlis[i])
+    with open(file_name, 'r', encoding='utf-8') as file:
+        files_text: str = file.read()
+        list_text: list[str] = files_text.replace('\n', ';').split(';')
+
+        for i in range(len(list_text)):
+            if i % 2 == 0:
+
+                phrase_en.append(list_text[i])
+            else:
+                if i % 2 != 0:
+                    phrase_pt.append(list_text[i])
 
 
-def sentence_separator(file_name: str, list_phrases: list[str]):
+def file_save(file_name: str, list_phrases: list[str]):
 
     with open(file_name, 'a', encoding='utf-8') as data:
         for i in list_phrases:
@@ -24,5 +27,5 @@ def sentence_separator(file_name: str, list_phrases: list[str]):
         print('salvo')
 
 
-sentence_separator('en.csv', phrase_en)
-sentence_separator('pt.csv', phrase_pt)
+file_save('en.csv', phrase_en)
+file_save('pt.csv', phrase_pt)
