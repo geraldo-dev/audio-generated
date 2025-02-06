@@ -14,7 +14,8 @@ modelo = genanki.Model(
         {
             'name': 'Card de Frente',
             'qfmt': '<h2>{{Texto}}</h2><br>{{Audio}}',  # Frente do cartão
-            'afmt': '<h2>{{Texto}}</h2>',  # Resposta (inclui o áudio)
+            # Resposta (inclui o áudio)
+            'afmt': '<h2>{{Texto}}</h2><br>{{Audio}}',
         },
     ],
 )
