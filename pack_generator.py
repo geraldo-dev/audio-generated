@@ -23,6 +23,7 @@ phrase_en.append(file_read('en.csv'))
 phrase_pt.append(file_read('pt.csv'))
 
 
+# criação do deck
 my_model = genanki.Model(
     1234567890,
     'Modelo com Áudio',
@@ -43,29 +44,27 @@ my_model = genanki.Model(
 
 deck = genanki.Deck(
     123456789,
-    'Deck com Áudio'
+    'basico anki 100'
 )
 
 folder_audio = 'sons'
 
-for file in os.listdir(folder_audio):
-    count: int = 0
-    if file.endswith(('.mp3', '.wav')):
+for i, (en, pt) in enumerate(zip(phrase_en[0], phrase_pt[0])):
+    nota = genanki.Note(
+        model=my_model,
+        fields=[en, pt, f'[sound:{en}.mp3]']
+    )
 
-        path_audio = f'[sound:{file}]'
+    deck.add_note(nota)
 
-        nota = genanki.Note(
-            model=my_model,
-            fields=[str(phrase_en[0][count]), str(
-                phrase_pt[0][count]), path_audio]
-        )
-        count = count + 1
-        deck.add_note(nota)
-
+# # busca pelo nome do audio
 pack = genanki.Package(deck)
-pack.media_files = [os.path.join(folder_audio, f) for f in os.listdir(
-    folder_audio) if f.endswith(('.mp3', '.wav'))]
+
+list_audios: list[str] = [a for a in os.listdir(
+    folder_audio) if a.endswith(('.mp3'))]
+
+pack.media_files = [os.path.join(folder_audio, x) for x in list_audios]
 
 pack.write_to_file('deck_com_audio.apkg')
 
-print("Deck criado com sucesso: deck_com_audio.apkg")
+print("Deck criado com sucesso: deck_com_audio")
