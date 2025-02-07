@@ -9,10 +9,10 @@ def audio_generator(file_name: str, slow: bool = True, folder: str = 'sons') -> 
         read_file = csv.reader(csvfile=data)
 
         for i, row in enumerate(read_file):
-
-            text: str = row[0]
-            tts = gTTS(text=text, lang='en', slow=slow)
-            tts.save(f'./{folder}/{i}_phrases.mp3')
+            if i < 100:
+                text: str = row[0]
+                tts = gTTS(text=text, lang='en', slow=slow)
+                tts.save(f'./{folder}/{i}_phrases.mp3')
 
 
 audio_generator(file_name='en.csv', slow=True, folder='sons')

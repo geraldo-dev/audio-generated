@@ -2,8 +2,26 @@ import genanki
 import os
 import csv
 
-phrase_en: list[str] = []
-phrase_pt: list[str] = []
+phrase_en: list[list[str]] = []
+phrase_pt: list[list[str]] = []
+
+
+def file_read(file_name: str) -> list[str]:
+
+    temporary_list: list[str] = []
+
+    with open(file_name, mode='r', encoding='utf-8') as data:
+        list_phrases = csv.reader(data)
+        for i, row in enumerate(list_phrases):
+            if i < 100:
+                temporary_list.append(str(row[0]))
+
+        return temporary_list
+
+
+phrase_en.append(file_read('en.csv'))
+phrase_pt.append(file_read('pt.csv'))
+
 
 my_model = genanki.Model(
     1234567890,
@@ -38,7 +56,8 @@ for file in os.listdir(folder_audio):
 
         nota = genanki.Note(
             model=my_model,
-            fields=[str(phrase_en[count]), str(phrase_pt[count]), path_audio]
+            fields=[str(phrase_en[0][count]), str(
+                phrase_pt[0][count]), path_audio]
         )
         count = count + 1
         deck.add_note(nota)

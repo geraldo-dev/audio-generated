@@ -27,5 +27,6 @@ def file_save(file_name: str, list_phrases: list[str]):
         print('salvo')
 
 
+sentence_separator('ingles-Portugues.csv')
 file_save('en.csv', phrase_en)
 file_save('pt.csv', phrase_pt)
