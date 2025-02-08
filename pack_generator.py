@@ -13,8 +13,7 @@ def file_read(file_name: str) -> list[str]:
     with open(file_name, mode='r', encoding='utf-8') as data:
         list_phrases = csv.reader(data)
         for i, row in enumerate(list_phrases):
-            if i < 100:
-                temporary_list.append(str(row[0]))
+            temporary_list.append(str(row[0]))
 
         return temporary_list
 
@@ -44,15 +43,21 @@ my_model = genanki.Model(
 
 deck = genanki.Deck(
     123456789,
-    'basico anki 100'
+    'basico anki'
 )
 
 folder_audio = 'sons'
+list_audios: list[str] = [a for a in os.listdir(
+    folder_audio) if a.endswith(('.mp3'))]
 
-for i, (en, pt) in enumerate(zip(phrase_en[0], phrase_pt[0])):
+file_order: list[str] = sorted(
+    list_audios, key=lambda x: int(x.split('audio')[0]))
+
+for i, (en, pt, audio) in enumerate(zip(phrase_en[0], phrase_pt[0], file_order)):
+
     nota = genanki.Note(
         model=my_model,
-        fields=[en, pt, f'[sound:{en}.mp3]']
+        fields=[en, pt, f'[sound:{audio}]']
     )
 
     deck.add_note(nota)
@@ -60,10 +65,8 @@ for i, (en, pt) in enumerate(zip(phrase_en[0], phrase_pt[0])):
 # # busca pelo nome do audio
 pack = genanki.Package(deck)
 
-list_audios: list[str] = [a for a in os.listdir(
-    folder_audio) if a.endswith(('.mp3'))]
 
-pack.media_files = [os.path.join(folder_audio, x) for x in list_audios]
+pack.media_files = [os.path.join(folder_audio, audio) for audio in file_order]
 
 pack.write_to_file('deck_com_audio.apkg')
 
