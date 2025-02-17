@@ -1,6 +1,7 @@
 import genanki
 import os
 import csv
+from time import sleep
 
 phrase_en: list[list[str]] = []
 phrase_pt: list[list[str]] = []
@@ -24,7 +25,7 @@ phrase_pt.append(file_read('pt.csv'))
 
 # criação do deck
 my_model = genanki.Model(
-    1234567890,
+    54327,
     'Modelo com Áudio',
     fields=[
         {'name': 'front'},
@@ -42,7 +43,7 @@ my_model = genanki.Model(
 )
 
 deck = genanki.Deck(
-    123456789,
+    973945,
     'basico anki'
 )
 
@@ -59,6 +60,7 @@ for i, (en, pt, audio) in enumerate(zip(phrase_en[0], phrase_pt[0], file_order))
         model=my_model,
         fields=[en, pt, f'[sound:{audio}]']
     )
+    # print(audio)
 
     deck.add_note(nota)
 
@@ -68,6 +70,8 @@ pack = genanki.Package(deck)
 
 pack.media_files = [os.path.join(folder_audio, audio) for audio in file_order]
 
-pack.write_to_file('deck_com_audio.apkg')
+print(pack)
+sleep(1)
+pack.write_to_file('basic02_audio.apkg')
 
 print("Deck criado com sucesso: deck_com_audio")

@@ -24,7 +24,7 @@ def file_save(file_name: str, list_phrases: list[str]):
             data.write(i+'\n')
 
 
-sentence_separator('400_frases_ingles_portugues.csv')
+sentence_separator('basico2.csv')
 
 file_save('en.csv', phrase_en)
 file_save('pt.csv', phrase_pt)

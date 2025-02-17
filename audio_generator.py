@@ -12,8 +12,8 @@ def audio_generator(file_name: str, slow: bool = True, folder: str = 'sons', siz
             if i < size:
                 text: str = row[0]
                 tts = gTTS(text, lang='en', slow=slow)
-                tts.save(f'./{folder}/{i}audio.mp3')
+                tts.save(f'./{folder}/{i}000000audio.mp3')
 
 
-audio_generator(file_name='en.csv', slow=True, folder='sons', size=296)
+audio_generator(file_name='en.csv', slow=True, folder='sons', size=350)
 print('music save')
